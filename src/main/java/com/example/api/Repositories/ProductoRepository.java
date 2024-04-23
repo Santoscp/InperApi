@@ -17,4 +17,10 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
             value="Select * FROM productos as prod WHERE prod.tipo LIKE %?1%",
             nativeQuery = true)
     public List<Producto> getByType(String name);
+
+    //query para obtener todos los productos de la empresa con id = 1
+    @Query(
+            value="Select * FROM productos as prod WHERE prod.id_empresa = ?1",
+            nativeQuery = true)
+    public List<Producto> getByCompany(int id);
 }

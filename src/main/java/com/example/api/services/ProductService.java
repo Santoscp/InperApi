@@ -18,6 +18,8 @@ public class ProductService {
         return productoRepository.findAll();
     }
 
+    public List<Producto> obtenerTodosLosProductosPorIdEmpresa(int id) {return productoRepository.getByCompany(id);}
+
     public Optional<Producto> obtenerProductoPorId(Integer id) {
         return productoRepository.findById(id);
     }

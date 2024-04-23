@@ -1,5 +1,6 @@
 package com.example.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class Admin {
     @Column(name = "usuario", nullable = false, length = 100)
     private String usuario;
 
+    @JsonIgnore()
     @Column(name = "contrasena", nullable = false, length = 100)
     private String contrasena;
 

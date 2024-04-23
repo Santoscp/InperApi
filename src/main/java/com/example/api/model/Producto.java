@@ -29,7 +29,7 @@ public class Producto {
     @Column(name = "precio", nullable = false)
     private Integer precio;
 
-    @Lob
+
     @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
     private String descripcion;
 

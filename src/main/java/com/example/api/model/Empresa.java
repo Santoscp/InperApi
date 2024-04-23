@@ -38,13 +38,16 @@ public class Empresa {
     @Column(name = "puntuaje", nullable = false)
     private Integer puntuaje;
 
+
+    @JsonIgnoreProperties("empresas")
     @ManyToMany(mappedBy = "empresas", fetch = FetchType.LAZY)
     private List<Owner> owners;
 
+    @JsonIgnoreProperties({"empresas", "idOwner"})
     @ManyToMany(mappedBy = "empresas", fetch = FetchType.LAZY)
     private List<Asociacion> asociaciones;
 
-
+    @JsonIgnoreProperties("idEmpresa")
     @OneToMany(mappedBy = "idEmpresa", fetch = FetchType.EAGER)
     private List<Producto> productos;
 

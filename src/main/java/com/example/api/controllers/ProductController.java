@@ -17,7 +17,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 
-    private ProductService service;
     @Autowired
     private ProductService productoService;
 
@@ -29,7 +28,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Producto> getProductById(@PathVariable("id") Integer id)
             throws RecordNotFoundException {
-        Optional<Producto> entity = service.obtenerProductoPorId(id);
+        Optional<Producto> entity = productoService.obtenerProductoPorId(id);
 
         if (!entity.isPresent()) {
             return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
@@ -37,10 +36,22 @@ public class ProductController {
         return new ResponseEntity<Producto>(entity.get(), new HttpHeaders(), HttpStatus.OK);
     }
 
+    @GetMapping("/companies/{id}")
+    public ResponseEntity<List<Producto>> getProductByCompany(@PathVariable("id") Integer id)
+            throws RecordNotFoundException {
+        List<Producto> entity = productoService.obtenerTodosLosProductosPorIdEmpresa(id);
+        System.out.println(id);
+        System.out.println(entity);
+        if (entity.isEmpty()) {
+            return new ResponseEntity<List<Producto>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<Producto>>(entity, new HttpHeaders(), HttpStatus.OK);
+    }
+
     @GetMapping("/name/{name}")
     public ResponseEntity<Producto> getProductByName(@PathVariable("name") String name)
             throws RecordNotFoundException {
-        List<Producto> entity = service.obtenerProductoPorNombre(name);
+        List<Producto> entity = productoService.obtenerProductoPorNombre(name);
 
         if (entity.isEmpty()) {
             return new ResponseEntity<Producto>(HttpStatus.NOT_FOUND);
@@ -51,7 +62,7 @@ public class ProductController {
     @GetMapping("/type/{type}")
     public ResponseEntity<List<Producto>> getProductByType(@PathVariable("type") String type)
             throws RecordNotFoundException {
-        List<Producto> entity = service.obtenerProductoPorTipo(type);
+        List<Producto> entity = productoService.obtenerProductoPorTipo(type);
 
         if (entity.isEmpty()) {
             return new ResponseEntity<List<Producto>>(HttpStatus.NOT_FOUND);
