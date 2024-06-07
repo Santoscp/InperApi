@@ -1,6 +1,7 @@
 package com.example.api.controllers;
 
 import com.example.api.Exception.RecordNotFoundException;
+import com.example.api.model.DTO.Producto_Request_Update;
 import com.example.api.model.Producto;
 import com.example.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,13 +72,23 @@ public class ProductController {
     }
 
 
-    @PostMapping
+    @PostMapping("/addProduct")
     public Producto guardarProducto(@RequestBody Producto producto) {
         return productoService.guardarProducto(producto);
     }
 
-    @DeleteMapping("/{id}")
+    //metodo para actualizar producto segun el repo y el servicio
+
+    @PutMapping("/edit")
+    public void actualizarProducto(@RequestBody Producto_Request_Update producto) {
+        System.out.println(producto);
+        productoService.actualizarProducto(producto);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
     public void eliminarProducto(@PathVariable Integer id) {
         productoService.eliminarProducto(id);
+        System.out.println("Eliminado pc");
     }
 }

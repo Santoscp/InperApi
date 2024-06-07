@@ -1,6 +1,7 @@
 package com.example.api.controllers;
 
 import com.example.api.Exception.RecordNotFoundException;
+import com.example.api.model.DTO.Company_Request_Update;
 import com.example.api.model.Empresa;
 import com.example.api.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/companies")
+@CrossOrigin("*")
+@RequestMapping("/api/empresas")
 public class EmpresaController {
 
     @Autowired
     private EmpresaService empresaService;
 
-    @GetMapping
-    public List<Empresa> obtenerTodosLosProductos() {
+    @GetMapping("/getall")
+    public List<Empresa> obtenerTodasLasEmpresas() {
         return empresaService.GetAllCompanies();
     }
 
@@ -63,6 +65,11 @@ public class EmpresaController {
         return empresaService.saveCompany(empresa);
     }
 
+    @PutMapping("/edit")
+    public void actualizarProducto(@RequestBody Company_Request_Update company) {
+        System.out.println(company);
+        empresaService.updateCompany(company);
+    }
     @DeleteMapping("/{id}")
     public void eliminarProducto(@PathVariable Integer id) {
         empresaService.deleteCompany(id);

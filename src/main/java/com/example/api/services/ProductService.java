@@ -1,6 +1,7 @@
 package com.example.api.services;
 
 import com.example.api.Repositories.ProductoRepository;
+import com.example.api.model.DTO.Producto_Request_Update;
 import com.example.api.model.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,19 @@ public class ProductService {
     }
 
     public Producto guardarProducto(Producto producto) {
+        System.out.println("ADDING");
+        System.out.println(producto);
         return productoRepository.save(producto);
     }
 
+    //Metodo para actualizar un producto
+    public void actualizarProducto(Producto_Request_Update producto) {
+        System.out.println(producto);
+        productoRepository.actualizarProducto(producto.getNombre(), producto.getPrecio(), producto.getProductoId());
+    }
     public void eliminarProducto(Integer id) {
-        productoRepository.deleteById(id);
+        productoRepository.deleteProductById(id);
+        System.out.println("Eliminado ps");
     }
 }
 
