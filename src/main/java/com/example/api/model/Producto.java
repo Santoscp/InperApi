@@ -1,42 +1,107 @@
 package com.example.api.model;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Blob;
+import java.util.Arrays;
+import java.util.List;
+
 @NoArgsConstructor
-@Getter
-@Setter
 @Entity
-@ToString
-@Table(name = "productos")
+@Table(name = "producto")
 public class Producto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+	   @Id
+	    @Column(name = "id", nullable = false)
+	    private Integer id;
 
-    @JsonIgnoreProperties("productos")
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id_empresa", nullable = false)
-    private Empresa idEmpresa;
+	  
+	    @Column(name = "nombre", nullable = false, length = 100)
+	    private String nombre; // Si la columna se llama "Nombre", cámbiala a "nombre"
+	    
+	    @Column(name="descripcion")
+	    private String descripcion;
+	    
+	    @Enumerated(EnumType.STRING)    
+	    @Column(name = "tipo", nullable = false)
+	    private TipoProducto tipo; // Añadimos la categoría con el enum
+	    
+	    
+	    
+	    @Column(name ="imagen")
+	    private byte[] imagen;
+	    
+	    
+	    
+	
+    
+  
 
-    @Column(name = "nombre", nullable = false, length = 100)
-    private String nombre;
 
-    @Column(name = "precio", nullable = false)
-    private Integer precio;
+	public byte[] getImagen() {
+			return imagen;
+		}
+
+		public void setImagen(byte[] imagen) {
+			this.imagen = imagen;
+		}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
 
-    @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
-    private String descripcion;
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
+				+ ", imagen=" + Arrays.toString(imagen) + "]";
+	}
 
-    @Column(name = "img", nullable = false, length = 100)
-    private String img;
 
-    @Column(name = "tipo", nullable = false, length = 100)
-    private String tipo;
+	public enum TipoProducto {
+        Gaming("Gaming"),
+        TodoEnUno("Todo en Uno"),
+        Sobremesa("Sobremesa"),
+        Smartphone("Smartphone"),
+        TelefonosBasicos("Teléfonos Básicos"),
+        CartuchoTinta("Cartucho de Tinta"),
+        TONER("Toner"),
+        TAMBORES("Tambores"),
+        PAPEL("Papel"),
+        TECLADO("Teclado"),
+        RATON("Ratón"),
+        PACKS("Packs"),
+        MONITORES("Monitores"),
+        Otros("Otros");
+
+        private final String nombre;
+
+       TipoProducto(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+    }
+
+
 
 
 }
