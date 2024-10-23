@@ -1,0 +1,13 @@
+com\example\api\controllers\ProductoController.class
+com\example\api\services\ProductoService.class
+com\example\api\model\Producto.class
+com\example\api\ApiCommerceApplication.class
+com\example\api\controllers\ImagenController.class
+com\example\api\model\Imagen.class
+com\example\api\services\ImagenService.class
+com\example\api\model\Producto$TipoProducto.class
+com\example\api\Exception\RecordNotFoundException.class
+com\example\api\Repositories\ProductoRepository.class
+com\example\api\ENUM\PagoPedido.class
+com\example\api\ENUM\EstadoPedido.class
+com\example\api\Repositories\ImagenRepository.class
