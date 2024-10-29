@@ -13,27 +13,26 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "producto")
+@Table(name = "articulos")
 public class Producto {
 	   @Id
-	    @Column(name = "id", nullable = false)
-	    private Integer id;
+	   @Column(name = "IdArticulo", nullable = false)
+	   @GeneratedValue(strategy = GenerationType.IDENTITY) // Cambia la estrategia según tu necesidad
+	    private int id;
 
 	  
-	    @Column(name = "nombre", nullable = false, length = 100)
-	    private String nombre; // Si la columna se llama "Nombre", cámbiala a "nombre"
+
 	    
-	    @Column(name="descripcion")
-	    private String descripcion;
+	    @Column(name="Descripción",nullable = true)
+	    private String nombre;
 	    
-	    @Enumerated(EnumType.STRING)    
-	    @Column(name = "tipo", nullable = false)
-	    private TipoProducto tipo; // Añadimos la categoría con el enum
+
 	    
 	    
 	    
-	    @Column(name ="imagen")
+	    @Column(name ="Imagen",nullable = true)
 	    private byte[] imagen;
+
 	    
 	    
 	    
@@ -50,12 +49,33 @@ public class Producto {
 			this.imagen = imagen;
 		}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", imagen=" + Arrays.toString(imagen) + "]";
 	}
 
 	public String getNombre() {
@@ -67,11 +87,19 @@ public class Producto {
 	}
 
 
-	@Override
-	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipo=" + tipo
-				+ ", imagen=" + Arrays.toString(imagen) + "]";
-	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	public enum TipoProducto {
