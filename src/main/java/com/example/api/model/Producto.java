@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,8 @@ public class Producto {
 	    
 	    @Column(name="Descripción",nullable = true)
 	    private String nombre;
+	    @Column(name="precio_medio",nullable = true)
+	    private BigDecimal  precio_medio;
 	    
 
 	    
@@ -73,9 +76,20 @@ public class Producto {
 
 
 
+
+
 	@Override
 	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", imagen=" + Arrays.toString(imagen) + "]";
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precio_medio=" + precio_medio + ", imagen="
+				+ Arrays.toString(imagen) + "]";
+	}
+
+	public BigDecimal  getPrecio_medio() {
+		return precio_medio;
+	}
+
+	public void setPrecio_medio(BigDecimal  precio_medio) {
+		this.precio_medio = precio_medio;
 	}
 
 	public String getNombre() {
