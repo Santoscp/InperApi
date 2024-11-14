@@ -77,6 +77,20 @@ public class CarritoService {
         return carritoRepository.save(carrito);
     }
     
+    public void incrementarCantidad(int idCarrito, int idProducto) {
+        carritoRepository.incrementarCantidadProductoEnCarrito(idCarrito, idProducto);
+    }
+    
+    
+    public boolean existeProductoEnCarrito(int idCarrito, int idProducto) {
+        // Realizas la consulta y devuelves un booleano
+        Integer resultado = carritoRepository.existeProductoEnCarrito(idCarrito, idProducto);
+        
+        return resultado != null && resultado == 1; // 1 significa que existe, 0 significa que no existe
+    }
+    
+
+    
 
 
 

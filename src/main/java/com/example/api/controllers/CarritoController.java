@@ -75,11 +75,35 @@ public class CarritoController {
         }
     }
     
+    
+    @GetMapping("/producto-existe")
+    public ResponseEntity<Boolean> productoExisteEnCarrito(@RequestParam int idCarrito, @RequestParam int idProducto) {
+        boolean existe = carritoservice.existeProductoEnCarrito(idCarrito, idProducto);
+        return ResponseEntity.ok(existe);
+    }
+    
 
     @PostMapping("/agregar/{googleId}/{idProducto}")
     public ResponseEntity<Carrito> agregarProductoAlCarrito(@PathVariable String googleId, @PathVariable int idProducto) {
         Carrito carrito = carritoservice.agregarProductoAlCarrito(googleId, idProducto);
         return ResponseEntity.ok(carrito);
+    }
+    
+    
+    
+    
+    
+    @PutMapping("/incrementar-cantidad")
+    public ResponseEntity<String> incrementarCantidadProducto(
+            @RequestParam int idCarrito,
+            @RequestParam int idProducto) {
+        
+        try {
+            carritoservice.incrementarCantidad(idCarrito, idProducto);
+            return ResponseEntity.ok("Cantidad incrementada exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al incrementar la cantidad: " + e.getMessage());
+        }
     }
 
 
