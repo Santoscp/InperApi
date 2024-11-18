@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,9 +61,9 @@ public class ProductoService {
 //        System.out.println(producto);
 //        return productoRepository.save(producto);
 //    }
-    public void agregarProducto(String nombre) {
+    public void agregarProducto(String nombre, BigDecimal precio_medio) {
         // Insertar el producto
-        productoRepository.insertarArticulo(nombre);
+        productoRepository.insertarArticulo(nombre,precio_medio);
         // Actualizar el id_articulo
         productoRepository.actualizarIdArticulo();
     }

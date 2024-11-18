@@ -89,7 +89,7 @@ public class ProductoController {
     }
     @PostMapping("/addProduct")
     public ResponseEntity<String> agregarProducto(@RequestBody Producto producto) {
-        productoService.agregarProducto(producto.getNombre());
+        productoService.agregarProducto(producto.getNombre(),producto.getPrecio_medio());
         return new ResponseEntity<>("Producto añadido exitosamente", HttpStatus.CREATED);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
@@ -38,8 +39,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO articulos (Descripción) VALUES (:nombre)", nativeQuery = true)
-    void insertarArticulo(@Param("nombre") String nombre);
+    @Query(value = "INSERT INTO articulos (Descripción, precio_medio) VALUES (:nombre,:precio_medio)", nativeQuery = true)
+    void insertarArticulo(@Param("nombre") String nombre, @Param("precio_medio") BigDecimal precio_medio);
+
 
     @Modifying
     @Transactional
