@@ -69,28 +69,40 @@ public class ProductoController {
 
     // Actualizar producto
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Void> actualizarProducto(@PathVariable Integer id, @RequestBody Producto producto) {
-        // Verificar si el producto existe utilizando el servicio
+    public ResponseEntity<Void> actualizarProducto(
+            @PathVariable Integer id,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("precio_medio") BigDecimal precioMedio,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen
+    ) {
+        // Verificar si el producto existe
         if (!productoService.GetProductById(id).isPresent()) {
             return ResponseEntity.notFound().build(); // Retorna 404 si no existe
         }
 
-        producto.setId(id);
+        // Obtener el producto existente
+        Producto producto = productoService.GetProductById(id).get();
 
-        // Procesar imagen si está en formato Base64
-        if (producto.getImagen() != null && producto.getImagen().length > 0) {
-            String imagenBase64 = new String(producto.getImagen());
-            if (imagenBase64.startsWith("data:image/jpeg;base64,")) {
-                imagenBase64 = imagenBase64.substring("data:image/jpeg;base64,".length());
-                byte[] imagenBytes = Base64.getDecoder().decode(imagenBase64);
-                producto.setImagen(imagenBytes);
+        // Actualizar los datos
+        producto.setNombre(nombre);
+
+        producto.setPrecio_medio(precioMedio);
+
+
+        // Procesar la imagen si se envía
+        if (imagen != null && !imagen.isEmpty()) {
+            try {
+                byte[] imagenBytes = imagen.getBytes();
+                producto.setImagen(imagenBytes); // Guardar los bytes en la base de datos
+            } catch (Exception e) {
+                return ResponseEntity.status(500).build(); // Error al procesar la imagen
             }
         }
 
-        // Actualizar el producto
+        // Guardar el producto actualizado
         productoService.actualizarProducto(producto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // Retorna 204 (sin contenido)
     }
     @PostMapping("/addProduct")
     public ResponseEntity<Map<String, String>> addProduct(
