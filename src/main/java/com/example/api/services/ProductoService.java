@@ -5,7 +5,6 @@ package com.example.api.services;
 import com.example.api.Repositories.ProductoRepository;
 
 import com.example.api.model.Producto;
-import com.example.api.model.Producto.TipoProducto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,12 +60,13 @@ public class ProductoService {
 //        System.out.println(producto);
 //        return productoRepository.save(producto);
 //    }
-    public void agregarProducto(String nombre, BigDecimal precio_medio) {
-        // Insertar el producto
-        productoRepository.insertarArticulo(nombre,precio_medio);
+    public void agregarProducto(String nombre, BigDecimal precio_medio, byte[] imagen) {
+        // Insertar el producto en la base de datos
+        productoRepository.insertarArticulo(nombre, precio_medio, imagen);
         // Actualizar el id_articulo
         productoRepository.actualizarIdArticulo();
     }
+
 
 
 

@@ -11,7 +11,6 @@ com\example\api\controllers\ImagenController.class
 com\example\api\model\Carrito.class
 com\example\api\model\Imagen.class
 com\example\api\services\ImagenService.class
-com\example\api\model\Producto$TipoProducto.class
 com\example\api\Exception\RecordNotFoundException.class
 com\example\api\model\Cliente.class
 com\example\api\Repositories\CarritoRepository.class

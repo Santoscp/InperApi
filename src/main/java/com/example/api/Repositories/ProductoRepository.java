@@ -1,6 +1,6 @@
 package com.example.api.Repositories;
 import com.example.api.model.Producto;
-import com.example.api.model.Producto.TipoProducto;
+
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,8 +39,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO articulos (Descripción, precio_medio) VALUES (:nombre,:precio_medio)", nativeQuery = true)
-    void insertarArticulo(@Param("nombre") String nombre, @Param("precio_medio") BigDecimal precio_medio);
+    @Query(value = "INSERT INTO articulos (Descripción, precio_medio, imagen) VALUES (:nombre, :precio_medio, :imagen)", nativeQuery = true)
+    void insertarArticulo(@Param("nombre") String nombre, @Param("precio_medio") BigDecimal precio_medio, @Param("imagen") byte[] imagen);
 
 
     @Modifying

@@ -9,8 +9,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.math.BigDecimal;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -88,11 +93,36 @@ public class ProductoController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/addProduct")
-    public ResponseEntity<String> agregarProducto(@RequestBody Producto producto) {
-        productoService.agregarProducto(producto.getNombre(),producto.getPrecio_medio());
-        return new ResponseEntity<>("Producto añadido exitosamente", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, String>> addProduct(
+            @RequestParam("nombre") String nombre,
+            @RequestParam("precio_medio") BigDecimal precio_medio,
+            @RequestParam("imagen") MultipartFile imagenFile) {
+
+        if (imagenFile == null || imagenFile.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "La imagen es requerida"));
+        }
+
+        try {
+            // Convertir la imagen a byte[]
+            byte[] imagenBytes = imagenFile.getBytes();
+
+            // Realizar la inserción en la base de datos
+            productoService.agregarProducto(nombre, precio_medio, imagenBytes);
+
+            // Crear un objeto de respuesta con el mensaje de éxito
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Producto insertado con éxito");
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            // Si ocurre algún error, devolver un error JSON
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error al insertar el producto");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
     }
 
 
 
-}
+
+} 
