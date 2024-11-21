@@ -56,16 +56,19 @@ public class ProductoController {
         return new ResponseEntity<>(entity, new HttpHeaders(), HttpStatus.OK);
     }
 
-//    // Eliminar producto
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> eliminarProducto(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, String>> eliminarProducto(@PathVariable Integer id) {
+        Map<String, String> response = new HashMap<>();
         try {
             productoService.eliminarProductoPorId(id);
-            return ResponseEntity.ok("Producto eliminado exitosamente");
+            response.put("message", "Producto eliminado exitosamente");
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
 
     // Actualizar producto
     @PutMapping("/edit/{id}")
