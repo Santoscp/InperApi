@@ -42,6 +42,7 @@ public class CarritoService {
         return carritoRepository.findCarritoByGoogleId(googleid);
     }
 
+
     public List<Carrito> GetAllCarrito() {
     	
    
@@ -55,6 +56,8 @@ public class CarritoService {
     
     public Carrito agregarProductoAlCarrito(String googleId, int idProducto) {
         // 1. Buscar el cliente por su googleId
+    	System.out.println(googleId);
+    	System.out.println(idProducto);
         Cliente cliente = clienteRepository.findByGoogleid(googleId)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 
@@ -88,8 +91,33 @@ public class CarritoService {
         
         return resultado != null && resultado == 1; // 1 significa que existe, 0 significa que no existe
     }
-    
+    public Carrito crearCarrito(String googleid) {
+        // Obtener el cliente correspondiente al googleId
+        Cliente cliente = clienteRepository.findByGoogleid(googleid)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado para googleId: " + googleid));
 
+        // Crear un nuevo carrito y asociar el cliente
+        Carrito nuevoCarrito = new Carrito();
+        nuevoCarrito.setCliente(cliente);  // Asignamos el cliente al carrito
+
+        // Guardamos el carrito en la base de datos
+        return carritoRepository.save(nuevoCarrito);
+    }
+    
+    public Integer obtenerCantidadProductoEnCarrito(String googleid, int idProducto) {
+        // Paso 1: Obtener el ID del carrito del cliente
+        Integer idCarrito = carritoRepository.findIdCarritoByGoogleId(googleid);
+
+        if (idCarrito != null) {
+            // Paso 2: Consultar la cantidad del producto en el carrito
+            return carritoRepository.findCantidadByCarritoAndProducto(idCarrito, idProducto);
+        } else {
+            // Manejo de error si no se encuentra el carrito (cliente no tiene carrito)
+            return null;
+        }
+    }
+
+    
     
 
 

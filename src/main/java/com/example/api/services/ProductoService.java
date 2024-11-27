@@ -66,6 +66,8 @@ public class ProductoService {
         // Actualizar el id_articulo
         productoRepository.actualizarIdArticulo();
     }
+    
+    
 
 
 

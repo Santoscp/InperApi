@@ -68,12 +68,16 @@ public class CarritoController {
     @GetMapping("/cliente")
     public ResponseEntity<Carrito> obtenerCarritoPorGoogleId(@RequestParam String googleid) {
         Carrito carrito = carritoservice.obtenerCarritoPorGoogleId(googleid);
+
         if (carrito != null) {
             return ResponseEntity.ok(carrito); // Si se encuentra el carrito, lo devolvemos
         } else {
-            return ResponseEntity.notFound().build(); // Si no se encuentra el carrito, devolvemos 404
+            // Si no se encuentra el carrito, creamos uno nuevo
+            Carrito nuevoCarrito = carritoservice.crearCarrito(googleid);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoCarrito); // Devolvemos el carrito creado con un 201 (CREATED)
         }
     }
+
     
     
     @GetMapping("/producto-existe")
@@ -85,6 +89,7 @@ public class CarritoController {
 
     @PostMapping("/agregar/{googleId}/{idProducto}")
     public ResponseEntity<Carrito> agregarProductoAlCarrito(@PathVariable String googleId, @PathVariable int idProducto) {
+    	System.out.println("llega");
         Carrito carrito = carritoservice.agregarProductoAlCarrito(googleId, idProducto);
         return ResponseEntity.ok(carrito);
     }
@@ -105,7 +110,22 @@ public class CarritoController {
             return ResponseEntity.status(500).body("Error al incrementar la cantidad: " + e.getMessage());
         }
     }
-
+    @GetMapping("/cantidad")
+    public ResponseEntity<Integer> obtenerCantidadProductoEnCarrito(
+        @RequestParam String googleid, 
+        @RequestParam Integer idProducto) {
+        
+        // Llamamos al servicio para obtener la cantidad del producto en el carrito
+        Integer cantidad = carritoservice.obtenerCantidadProductoEnCarrito(googleid, idProducto);
+        
+        if (cantidad != null) {
+            // Si la cantidad fue encontrada, la retornamos
+            return ResponseEntity.ok(cantidad);
+        } else {
+            // Si no se encontró la cantidad, devolvemos un 404 o un mensaje adecuado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(null);  // O puedes devolver un mensaje personalizado
+        }
 
 
 
@@ -113,4 +133,7 @@ public class CarritoController {
 
     
 
+}
+    
+    
 }
