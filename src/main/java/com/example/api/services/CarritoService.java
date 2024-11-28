@@ -83,6 +83,10 @@ public class CarritoService {
     public void incrementarCantidad(int idCarrito, int idProducto) {
         carritoRepository.incrementarCantidadProductoEnCarrito(idCarrito, idProducto);
     }
+    public void decrementarCantidad(int idCarrito, int idProducto) {
+        carritoRepository.decrementarCantidadProductoEnCarrito(idCarrito, idProducto);
+    }
+    
     
     
     public boolean existeProductoEnCarrito(int idCarrito, int idProducto) {

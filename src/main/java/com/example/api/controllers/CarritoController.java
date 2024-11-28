@@ -110,6 +110,20 @@ public class CarritoController {
             return ResponseEntity.status(500).body("Error al incrementar la cantidad: " + e.getMessage());
         }
     }
+    
+    @PutMapping("/decrementar-cantidad")
+    public ResponseEntity<String> decrementarCantidadProducto(
+            @RequestParam int idCarrito,
+            @RequestParam int idProducto) {
+        
+        try {
+            carritoservice.decrementarCantidad(idCarrito, idProducto);
+            return ResponseEntity.ok("Cantidad incrementada exitosamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al incrementar la cantidad: " + e.getMessage());
+        }
+    }
+    
     @GetMapping("/cantidad")
     public ResponseEntity<Integer> obtenerCantidadProductoEnCarrito(
         @RequestParam String googleid, 

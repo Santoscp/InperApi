@@ -34,6 +34,11 @@ public interface CarritoRepository extends JpaRepository<Carrito, Integer> {
 	@Transactional
 	@Query(value = "UPDATE carrito_producto cp SET cp.cantidad = cp.cantidad + 1 WHERE cp.id_carrito = :idCarrito AND cp.id_producto = :idProducto", nativeQuery = true)
 	void incrementarCantidadProductoEnCarrito(@Param("idCarrito") int idCarrito, @Param("idProducto") int idProducto);
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE carrito_producto cp SET cp.cantidad = cp.cantidad - 1 WHERE cp.id_carrito = :idCarrito AND cp.id_producto = :idProducto", nativeQuery = true)
+	void decrementarCantidadProductoEnCarrito(@Param("idCarrito") int idCarrito, @Param("idProducto") int idProducto);
+
 
 	@Query(value = "SELECT EXISTS (SELECT 1 FROM carrito_producto WHERE id_carrito = :idCarrito AND id_producto = :idProducto)", nativeQuery = true)
 	Integer existeProductoEnCarrito(@Param("idCarrito") int idCarrito, @Param("idProducto") int idProducto);
