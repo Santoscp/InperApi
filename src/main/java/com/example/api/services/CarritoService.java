@@ -80,6 +80,35 @@ public class CarritoService {
         return carritoRepository.save(carrito);
     }
     
+    public Carrito eliminarProductoDelCarrito(String googleId, int idProducto) {
+        // 1. Buscar el cliente por su googleId
+        System.out.println(googleId);
+        System.out.println(idProducto);
+        Cliente cliente = clienteRepository.findByGoogleid(googleId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        // 2. Buscar el carrito del cliente
+        Carrito carrito = carritoRepository.findByCliente(cliente);
+        if (carrito == null) {
+            throw new RuntimeException("Carrito no encontrado para el cliente");
+        }
+
+        // 3. Buscar el producto por id
+        Producto producto = productoRepository.findById(idProducto)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // 4. Eliminar el producto del carrito
+        boolean eliminado = carrito.getProductos().remove(producto);
+
+        if (!eliminado) {
+            throw new RuntimeException("El producto no estaba en el carrito");
+        }
+
+        // 5. Guardar el carrito actualizado
+        return carritoRepository.save(carrito);
+    }
+
+    
     public void incrementarCantidad(int idCarrito, int idProducto) {
         carritoRepository.incrementarCantidadProductoEnCarrito(idCarrito, idProducto);
     }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -93,7 +94,15 @@ public class CarritoController {
         Carrito carrito = carritoservice.agregarProductoAlCarrito(googleId, idProducto);
         return ResponseEntity.ok(carrito);
     }
-    
+    @DeleteMapping("/eliminar/{googleId}/{idProducto}")
+    public ResponseEntity<Carrito> eliminarProductoDelCarrito(@PathVariable String googleId, @PathVariable int idProducto) {
+        System.out.println("llega");
+        // Llamada al servicio que elimina el producto
+        Carrito carrito = carritoservice.eliminarProductoDelCarrito(googleId, idProducto);
+        return ResponseEntity.ok(carrito);
+    }
+
+
     
     
     
